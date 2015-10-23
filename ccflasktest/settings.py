@@ -5,7 +5,9 @@ os_env = os.environ
 
 
 class Config(object):
-    SECRET_KEY = os_env.get('CCFLASKTEST_SECRET', 'secret-key')  # TODO: Change me
+    # use env variable secret if it exists, else use 'secret-key'
+    SECRET_KEY = os_env.get(
+        'CCFLASKTEST_SECRET', 'secret-key')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     BCRYPT_LOG_ROUNDS = 13
@@ -19,7 +21,7 @@ class ProdConfig(Config):
     """Production configuration."""
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/example'  # TODO: Change me
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/'  # TODO: Change me
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
 
