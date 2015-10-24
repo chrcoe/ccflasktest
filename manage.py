@@ -4,6 +4,7 @@ import os
 from flask_script import Manager, Shell, Server
 from flask_script.commands import Clean, ShowUrls
 from flask_migrate import MigrateCommand
+from flask.ext.login import login_required, make_secure_token, get_auth_token
 
 from ccflasktest.app import create_app
 from ccflasktest.user.models import User
@@ -35,6 +36,18 @@ def test():
     exit_code = pytest.main([TEST_PATH, '--verbose'])
     return exit_code
 
+
+@app.route('/token', methods=['POST'])
+#  @login_required
+def get_token():
+    # this will make a secure token based on the current user's ID
+    # cannot get a token without being first logged in...
+    # maybe we want to accept username/password for every POST /token
+    # and then validate the user.  If valid, then return token ?
+    #  return make_secure_token(current_user.id)
+    return get_auth_token()
+    #  s = Serializer(app.config['SECRET_KEY'], expires_in=600)
+    #  return s.dumps({'id': current_user.id})
 
 manager.add_command('server', Server())
 manager.add_command('shell', Shell(make_context=_make_context))
